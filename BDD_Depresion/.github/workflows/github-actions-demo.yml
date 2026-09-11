@@ -1,0 +1,56 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # 1. Set up PHP 8.2
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      # 2. Check out repository
+      - uses: actions/checkout@v3
+
+      # 3. Install Composer dependencies in BDD_Creator directory
+      - name: Install dependencies
+        working-directory: ./BDD_Creator
+        run: composer install
+
+      # 4. Autoload Composer
+      - name: autoload composer
+        working-directory: ./BDD_Creator
+        run: composer dump-autoload
+
+      # 5. Run npm install in the frontend folder
+      - name: npm install
+        working-directory: ./front_bdd_creator
+        run: npm install
+
+      # 6. Install Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      # 7. Start Docker Compose
+      - name: Start Docker Compose
+        working-directory: ./
+        run: docker-compose up -d
+
+      # AUtoload Composer
+      - name: autoload composer
+        working-directory: ./BDD_Creator
+        run: docker exec -i bdd_depresion_php-api_1 composer dump-autoload
+
+      # 8. Run PHPUnit tests
+      - name: Run PHPUnit tests
+        run: |
+          sleep 10  # Attendre 10 secondes pour que MySQL soit prêt
+          docker exec -i bdd_depresion_php-api_1 ./vendor/bin/phpunit tests/functional/DatabaseTest.php
+

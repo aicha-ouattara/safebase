@@ -1,0 +1,11 @@
+form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    padding: 16px 20px;
+    background-color: var(--mdb-surface);
+    border: 1px solid var(--mdb-border);
+    border-radius: var(--mdb-radius);
+}

@@ -1,0 +1,35 @@
+.database_list {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.database_list > div {
+    flex: 1;
+    background-color: var(--mdb-surface);
+    border: 1px solid var(--mdb-border);
+    border-radius: var(--mdb-radius);
+    box-shadow: var(--mdb-shadow);
+    padding: 20px 24px;
+}
+
+.create_db {
+    text-align: center;
+}
+
+.create_db a {
+    display: inline-block;
+    margin-top: 8px;
+    background-color: var(--mdb-green);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: var(--mdb-radius);
+    transition: background-color 0.15s ease;
+}
+
+.create_db a:hover {
+    background-color: var(--mdb-green-dark);
+}
